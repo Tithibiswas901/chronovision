@@ -48,9 +48,10 @@ data/
 > misleading "before/after" label, the app and figures refer to the two
 > inputs neutrally as **"Image 1 (A)"** and **"Image 2 (B)"**.
 
-`data/` is intentionally excluded from version control (see
-`.gitignore`) because the dataset is large -- download/copy it locally
-before running anything below.
+A small subset (25 pairs) is included directly in this repo under `data/`
+so the evaluation and the Streamlit app's sample picker work out of the
+box. To use the full dataset instead, replace the contents of `data/A`,
+`data/B`, and `data/label` with your own LEVIR-CD split.
 
 ## Setup
 
@@ -102,6 +103,25 @@ In the app you can:
 - View Image 1 (A) and Image 2 (B) side by side, the binary change map,
   a red overlay of detected change on Image 1, and the percent of area
   changed.
+
+## Deploying to Streamlit Community Cloud
+
+The app is ready to deploy as-is -- `requirements.txt` uses
+`opencv-python-headless` specifically so it runs on Streamlit Cloud's
+Linux containers without extra system packages (regular `opencv-python`
+needs `libGL`, which isn't installed there by default).
+
+1. Push this repository to GitHub (including `data/`, which is already
+   tracked).
+2. Go to https://share.streamlit.io and sign in with your GitHub account.
+3. Click **"New app"**, select this repository and the `main` branch.
+4. Set **Main file path** to `app.py`.
+5. Click **Deploy**. The first build takes a few minutes while it
+   installs `requirements.txt`; after that you'll get a public URL for
+   the app.
+
+Any time you push new commits to `main`, the deployed app redeploys
+automatically.
 
 ## Project structure
 

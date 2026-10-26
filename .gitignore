@@ -2,7 +2,4 @@ __pycache__/
 *.pyc
 .venv/
 venv/
-
-# Dataset is large and not meant to be committed -- see README for how to
-# obtain LEVIR-CD and populate this folder locally.
-data/
+*.log
