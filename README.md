@@ -1,3 +1,14 @@
+---
+title: ChronoVision
+emoji: 🛰️
+colorFrom: blue
+colorTo: green
+sdk: streamlit
+sdk_version: "1.66.1"
+app_file: app.py
+pinned: false
+---
+
 # ChronoVision
 
 **Unsupervised change detection on bi-temporal satellite images.**
@@ -104,12 +115,39 @@ In the app you can:
   a red overlay of detected change on Image 1, and the percent of area
   changed.
 
+## Deploying to Hugging Face Spaces
+
+This repo is already configured for Spaces via the YAML block at the very
+top of this file (`sdk: streamlit`, `app_file: app.py`) -- GitHub hides
+that block when rendering this page, so it only takes effect on Spaces.
+`requirements.txt` also uses `opencv-python-headless` so it runs on
+Spaces' Linux containers without extra system packages (regular
+`opencv-python` needs `libGL`, which isn't installed there by default).
+
+1. Create a free account at https://huggingface.co if you don't have one.
+2. Click **"New Space"** (top-right profile menu, or
+   https://huggingface.co/new-space).
+3. Set **SDK** to **Streamlit**, pick a name (e.g. `chronovision`), choose
+   visibility, and create it. This gives you a git remote URL like
+   `https://huggingface.co/spaces/<your-username>/chronovision`.
+4. Add it as a git remote and push this repo's `main` branch to it:
+   ```bash
+   git remote add space https://huggingface.co/spaces/<your-username>/chronovision
+   git push space main
+   ```
+   (The first push will prompt for your Hugging Face username and an
+   access token as the password -- create one at
+   https://huggingface.co/settings/tokens with "write" access.)
+5. The Space builds automatically from `requirements.txt` and serves
+   `app.py`. Any later `git push space main` redeploys it.
+
+Since `data/` is tracked in this repo, the sample picker and
+ground-truth metrics work immediately on the deployed Space.
+
 ## Deploying to Streamlit Community Cloud
 
-The app is ready to deploy as-is -- `requirements.txt` uses
-`opencv-python-headless` specifically so it runs on Streamlit Cloud's
-Linux containers without extra system packages (regular `opencv-python`
-needs `libGL`, which isn't installed there by default).
+Alternatively, the same repo deploys just as easily to Streamlit
+Community Cloud:
 
 1. Push this repository to GitHub (including `data/`, which is already
    tracked).
